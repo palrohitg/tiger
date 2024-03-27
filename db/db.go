@@ -6,6 +6,8 @@ import (
 	"gorm.io/gorm"
 	"log"
 	"os"
+	"reflect"
+	"strings"
 )
 
 var Con *gorm.DB
@@ -18,6 +20,7 @@ func Connect() *gorm.DB {
 	fmt.Println("Start Time DB Operations")
 	fmt.Println(dbURL)
 	if dbURL != "" {
+		//todo: Update DB Creds in the Environment File
 		db, err := gorm.Open(mysql.Open(dbURL), &gorm.Config{})
 		if err != nil {
 			log.Fatalf("Got error when connect database, the error is '%v'", err)
@@ -27,12 +30,33 @@ func Connect() *gorm.DB {
 		return db
 	} else {
 		fmt.Println("DB Connection here")
+		/*
+			todo: Update DB Creds in the Environment File
+		*/
 		db, err := gorm.Open(mysql.Open("root:12345678@tcp(localhost:3306)/tiger?charset=utf8mb4&parseTime=True&loc=Local"), &gorm.Config{})
 		if err != nil {
-			log.Fatalf("Got error jwhen connect database, the error is '%v'", err)
+			log.Fatalf("Got error when connect database, the error is '%v'", err)
 		}
-		//db.AutoMigrate(&models.TransactionSummary{})
+		models := getModels()
+		for _, model := range models {
+			db.AutoMigrate(model)
+		}
 		Con = db
 		return db
+	}s
+}
+
+func getModels() []interface{} {
+	var models []interface{}
+	modelsPkg := reflect.TypeOf(models)
+	for i := 0; i < modelsPkg.NumField(); i++ {
+		fieldType := modelsPkg.Field(i).Type
+		if fieldType.Kind() == reflect.Struct {
+			if strings.ToUpper(string(fieldType.Name()[0])) == string(fieldType.Name()[0]) {
+				models = append(models, reflect.New(fieldType).Elem().Interface())
+			}
+		}
 	}
+
+	return models
 }
