@@ -1,0 +1,72 @@
+This project aims to assess development skills suitable for a backend developer position. It tests knowledge and proficiency with software design, unit testing, and web technologies like HTTP and REST/GraphQL.
+"https://www.howtographql.com/graphql-go/2-queries/"
+Project Name
+Tigerhall Kittens
+Project Goal
+Create a small web app for tracking the population of tigers in the wild
+Technology
+Golang
+Deliverables
+The solution should be hosted on gitlab, Github or any other shared platform, and the link should be sent to antoine@tigerhall.com & aditi@tigerhall.com
+Deadline
+10 days from receiving the assignment unless another agreement has been made.
+
+
+
+Description
+Users can use a fictional mobile app to add sightings of tigers in the wild. For this to work, our API must expose a list of tigers and their recent sightings.
+
+Requirements
+Design your API using RESTful or GraphQL (Bonus points for GraphQL)
+Either solution should be properly documented for frontend developers to consume
+All listing endpoints should include support for pagination
+All create endpoints should be protected by authentication
+Using a message queue for when a tiger has been sighted, send a notification email to all the users that have reported a sighting of the same tiger
+
+Note: If done correctly, Golang channels are a perfectly acceptable message queue implementation.
+Make sure your code has unit tests and if you want to stand out we suggest an e2e test or two!
+The data should be persisted in a database of your own choice
+Migrations should exist to set up the database
+A readme should be provided with instructions on how to run the project & tests
+
+
+Endpoints
+
+Endpoints
+Notes
+Create a new user
+Minimum required attributes username
+password
+email
+Login
+Be creative with which solution you choose to manage authentication but be mindful of industry best practises
+Create a new tiger
+Minimum required attributes Name
+
+
+
+
+
+
+Date of birth
+Last seen timestamp
+Last seen cordinates (Lat/lon)
+List all tigers
+Should be sorted by the last time the tigers was seen.
+Create a new sighting of a tiger
+Minimum required attributes Lat / Lon
+Timestamp
+Add support for uploading an image that is resized to 250x200
+
+Requirement
+Submitting a new sighting should only be possible if a tiger is not within 5 kilometres of its previous sighting regardless of who reported that sighting.
+
+Provie an error that can be easily used by frontend if this happens.
+List all sightings of a tiger
+Should be sorted by date (Latest first)
+
+
+Guidelines
+When doing this project, we are evaluating your ability to provide us with high-quality production-ready code that we can expect from you when you join our team, so make sure this assignment reflects that!
+Please commit often and with good git commit messages. This will allow us to see how you've approached the problem. Don't worry about changing things around often.
+Don’t hesitate to ask questions if you’re uncertain about the task or if anything else is unclear.
