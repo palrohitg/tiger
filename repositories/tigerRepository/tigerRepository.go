@@ -5,14 +5,16 @@ import (
 	"gorm.io/gorm"
 	"tigerhall/config/constants"
 	"tigerhall/dtos"
+	"tigerhall/libs"
 	"tigerhall/models"
 	"time"
 )
 
 func CreateUser(db *gorm.DB, user dtos.User) (models.User, error) {
+	passwordHash, _ := libs.HashPassword(user.Password)
 	userDtos := models.User{
 		UserName:    user.UserName,
-		Password:    user.Password,
+		Password:    passwordHash,
 		Email:       user.Email,
 		PhoneNumber: user.PhoneNumber,
 	}
