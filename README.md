@@ -1,8 +1,9 @@
-1. All the API will be Paginated 
-2. Created API should authenticated API Endpoints. 
-3. Send a Notification Using Go-Routine-Channel-Worker Channel who has reported the same tigers. 
-4. Migration Should be Done Initially When you are setting up your Databases. 
-5. ReadMe Need to change depending upon the docker-compose files.
+1. 
+2. All the API will be Paginated 
+3. Created API should authenticated API Endpoints. 
+4. Send a Notification Using Go-Routine-Channel-Worker Channel who has reported the same tigers. 
+5. Migration Should be Done Initially When you are setting up your Databases. 
+6. ReadMe Need to change depending upon the docker-compose files.
 
 
 ## API Endpoints 

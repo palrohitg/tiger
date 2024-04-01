@@ -8,6 +8,7 @@ import (
 	"os"
 	"reflect"
 	"strings"
+	"tigerhall/models"
 )
 
 var Con *gorm.DB
@@ -37,13 +38,15 @@ func Connect() *gorm.DB {
 		if err != nil {
 			log.Fatalf("Got error when connect database, the error is '%v'", err)
 		}
-		models := getModels()
-		for _, model := range models {
-			db.AutoMigrate(model)
-		}
+		db.AutoMigrate(
+			&models.Tiger{},
+			&models.AccessToken{},
+			&models.User{},
+			&models.TigerSight{},
+		)
 		Con = db
 		return db
-	}s
+	}
 }
 
 func getModels() []interface{} {

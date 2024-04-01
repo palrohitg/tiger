@@ -13,9 +13,9 @@ type BaseModel struct {
 }
 
 type Tiger struct {
-	Id   int       `json:"id"`
-	Name string    `json:"name"`
-	DOB  time.Time `json:"dob"`
+	Id   int    `json:"id"`
+	Name string `json:"name"`
+	DOB  string `json:"dob"`
 	BaseModel
 }
 
@@ -24,12 +24,12 @@ func (b *Tiger) TableName() string {
 }
 
 type TigerSight struct {
-	Id       int       `json:"id"`
-	TigerId  int       `json:"tiger_id"`
-	Lat      string    `json:"lat"`
-	Long     string    `json:"long"`
-	ImageURL string    `json:"image_url"`
-	LastSeen time.Time `json:"last_seen"`
+	Id       int    `json:"id"`
+	TigerId  int    `json:"tiger_id"`
+	Lat      string `json:"lat"`
+	Long     string `json:"long"`
+	ImageURL string `json:"image_url"`
+	LastSeen string `json:"last_seen"`
 	BaseModel
 }
 

@@ -17,5 +17,8 @@ func AddV1URLs(groups dtos.RouterGroups) {
 	TigerGroup := noAuthRg.Group("/tiger-service")
 	TigerGroup.POST("/create-user", tigerHandler.CreateUserHandler)
 	TigerGroup.POST("/login", tigerHandler.LoginHandler)
-	TigerGroup.GET("/login", tigerHandler.LoginHandler)
+	TigerGroup.POST("/create-tiger", tigerHandler.CreateTigerHandler)
+	TigerGroup.GET("/list", tigerHandler.GetTigerListHandler)
+	TigerGroup.GET("/tiger-sight", tigerHandler.GetTigerSightHandler)
+	TigerGroup.POST("/create-sight", tigerHandler.CreateSightTigerHandler)
 }

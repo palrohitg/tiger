@@ -1,6 +1,9 @@
 package config
 
-import "github.com/gin-gonic/gin"
+import (
+	"fmt"
+	"github.com/gin-gonic/gin"
+)
 
 type ErrorResponse struct {
 	Status  string `json:"status"`
@@ -18,7 +21,10 @@ func SendErrorResponse(ctx *gin.Context, statusCode int, message string) {
 		Status:  "error",
 		Message: message,
 	}
-	ctx.JSON(statusCode, response)
+	fmt.Println("find the response from here")
+	fmt.Println(response)
+	fmt.Println(statusCode)
+	ctx.JSON(400, response)
 }
 
 func SendSuccessResponse(ctx *gin.Context, statusCode int, message string, data map[string]interface{}) {

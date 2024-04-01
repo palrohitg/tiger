@@ -1,5 +1,13 @@
 package constants
 
 const (
-	TransactionSummary = "transaction_summary"
+	Tiger       = "tiger"
+	TigerSight  = "tiger_sight"
+	AccessToken = "access_token"
+	User        = "user"
+)
+
+const (
+	UserAlreadyExists = "User is already exists"
+	PasswordNotValid  = "password not valid"
 )

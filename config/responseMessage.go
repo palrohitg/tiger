@@ -12,6 +12,6 @@ const (
 )
 
 const (
-	SuccessStatus = 0
-	ErrStatus     = 1
+	SuccessStatus = 200
+	ErrStatus     = 400
 )
