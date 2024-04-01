@@ -18,7 +18,7 @@ func CreateUser(user dtos.User) (dtos.UserResponse, error) {
 	if err != nil {
 		return dtos.UserResponse{}, err
 	}
-	if userData.UserName == "" {
+	if userData.UserName != "" {
 		return dtos.UserResponse{}, config.ValidationError(constants.UserAlreadyExists)
 	}
 	userData, err = tigerRepository.CreateUser(db, user)
@@ -37,7 +37,6 @@ func LoginUser(login dtos.Login) (dtos.LoginResponse, error) {
 	if userData.UserName == "" {
 		return dtos.LoginResponse{}, config.ValidationError(constants.UserAlreadyExists)
 	}
-
 	if !libs.CheckPasswordHash(login.Password, userData.Password) {
 		return dtos.LoginResponse{}, config.ValidationError(constants.PasswordNotValid)
 	}

@@ -3,6 +3,7 @@ package tigerRepository
 import (
 	"fmt"
 	"gorm.io/gorm"
+	"tigerhall/config"
 	"tigerhall/config/constants"
 	"tigerhall/dtos"
 	"tigerhall/libs"
@@ -36,7 +37,7 @@ func GetUser(db *gorm.DB, user dtos.User) (models.User, error) {
 		return userDtos, res.Error
 	}
 	if res.RowsAffected != 0 {
-		return userDtos, nil
+		return userDtos, config.ValidationError("User Already Exists")
 	}
 	return userDtos, nil
 }
@@ -49,8 +50,8 @@ func GetUserByEmail(db *gorm.DB, login dtos.Login) (models.User, error) {
 	if res.Error != nil {
 		return userDtos, res.Error
 	}
-	if res.RowsAffected != 0 {
-		return userDtos, nil
+	if res.RowsAffected == 0 {
+		return userDtos, config.ValidationError("User not Exists")
 	}
 	return userDtos, nil
 }
@@ -111,7 +112,7 @@ func GetTiger(db *gorm.DB, tiger dtos.TigerDetails) (models.Tiger, error) {
 		return tigerDtos, nil
 	}
 	if res.RowsAffected != 0 {
-		return tigerDtos, nil
+		return tigerDtos, config.ValidationError("Tiger not Exists")
 	}
 	return tigerDtos, nil
 }
