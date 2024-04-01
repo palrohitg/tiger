@@ -90,6 +90,7 @@ func CreateTiger(db *gorm.DB, tiger dtos.TigerDetails) (models.Tiger, error) {
 }
 
 func CreateTigerDetail(db *gorm.DB, tigerSight models.TigerSight) (models.TigerSight, error) {
+	db = db.Debug()
 	tigerSight.CreatedAt = time.Now()
 	tigerSight.UpdatedAt = time.Now()
 	tigerSight.IsActive = true
@@ -113,24 +114,28 @@ func GetTiger(db *gorm.DB, tiger dtos.TigerDetails) (models.Tiger, error) {
 	return tigerDtos, nil
 }
 
-/*
-res := db.Table(constants.Tiger).
-
-	Joins("JOIN zoo ON tiger.zoo_id = zoo.id").
-	Where("tiger.name = ? AND tiger.is_active = ?", tiger.Name, true).
-	Select("tiger.*, zoo.name as zoo_name"). // Select the columns you want
-	Find(&tigerDtos)
-*/
-func GetTigerByLastSeen(db *gorm.DB) {
-	// Make the Join query to filter out the records once.
-	// Find the elements
-	tigerDtos := models.Tiger{}
+func GetTigerByLastSeen(db *gorm.DB) ([]dtos.TigerWithSightDetails, error) {
+	db = db.Debug()
+	var tigerDtos []dtos.TigerWithSightDetails
 	res := db.Table(constants.Tiger).
-		Joins("JOIN tiger_sight ON tiger.id = tiger_sight.tiger_id").
+		Joins("JOIN (SELECT tiger_id, MAX(last_seen) AS last_seen FROM tiger_sight GROUP BY tiger_id) AS latest_sight ON tiger.id = latest_sight.tiger_id").
+		Select("tiger.*, latest_sight.last_seen as last_seen").
 		Find(&tigerDtos)
 	if res.Error != nil {
-		fmt.Println(res.Error)
+		return []dtos.TigerWithSightDetails{}, res.Error
 	}
 	fmt.Println(tigerDtos)
-	return
+	return tigerDtos, nil
+}
+
+func GetTigerSight(db *gorm.DB) ([]dtos.TigerWithSightDetails, error) {
+	var tigerSight []dtos.TigerWithSightDetails
+	res := db.Table(constants.TigerSight).
+		Where("tiger_id = ?", 23).
+		Order("last_seen DESC").
+		Find(&tigerSight)
+	if res.Error != nil {
+		return tigerSight, res.Error
+	}
+	return tigerSight, nil
 }

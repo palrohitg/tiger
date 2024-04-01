@@ -64,24 +64,46 @@ func CreateTigerHandler(ctx *gin.Context) {
 }
 
 func GetTigerListHandler(ctx *gin.Context) {
-	// todo: list of tigers tiger details and their last information
-	// Also add the pagination support here
+	// todo: list of tigers tiger details and their last information limit and offset for pagination
 	data, err := tigerController.TigerDetails()
 	if err != nil {
 		config.SendErrorResponse(ctx, config.ErrStatus, err.Error())
 		return
 	}
-	config.SendSuccessResponse(ctx, config.SuccessStatus, config.SuccessMsg, data)
+	response := map[string]interface{}{
+		"data": data,
+	}
+	config.SendSuccessResponse(ctx, config.SuccessStatus, config.SuccessMsg, response)
 }
 
 func GetTigerSightHandler(ctx *gin.Context) {
-
+	var tiger dtos.Tiger
+	err := ctx.ShouldBindJSON(&tiger)
+	data, err := tigerController.TigerSight()
+	if err != nil {
+		config.SendErrorResponse(ctx, config.ErrStatus, err.Error())
+		return
+	}
+	response := map[string]interface{}{
+		"data": data,
+	}
+	config.SendSuccessResponse(ctx, config.SuccessStatus, config.SuccessMsg, response)
 }
 
 func CreateSightTigerHandler(ctx *gin.Context) {
-	/*
-		If the last lat-long distance after 5km then it should
-		created, check from the previous.
-	*/
-	//var tigerSightDetails dtos.TigerSightDetails
+	var tigerSightDetails dtos.TigerSightDetails
+	err := ctx.ShouldBindJSON(&tigerSightDetails)
+	if err != nil {
+		config.SendErrorResponse(ctx, config.ErrStatus, err.Error())
+		return
+	}
+	data, err := tigerController.CreateTigerSight(tigerSightDetails)
+	if err != nil {
+		config.SendErrorResponse(ctx, config.ErrStatus, err.Error())
+		return
+	}
+	response := map[string]interface{}{
+		"data": data,
+	}
+	config.SendSuccessResponse(ctx, config.SuccessStatus, config.SuccessMsg, response)
 }

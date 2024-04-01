@@ -51,6 +51,7 @@ func validatePassword(passwordHash string, password string) bool {
 	// todo: add the password matching algorithm here
 	return true
 }
+
 func CreateTiger(tiger dtos.TigerDetails) (dtos.TigerResponse, error) {
 	db, _ := dbManager.GetDbInstance()
 	tigerInfo, err := tigerRepository.GetTiger(db, tiger)
@@ -65,6 +66,22 @@ func CreateTiger(tiger dtos.TigerDetails) (dtos.TigerResponse, error) {
 		return dtos.TigerResponse{}, nil
 	}
 	return tigerSerializer.TigerSerializer(tigerData)
+}
+
+func CreateTigerSight(tigerSightDetails dtos.TigerSightDetails) (dtos.TigerSightResponse, error) {
+	db, _ := dbManager.GetDbInstance()
+	tigerSight := models.TigerSight{
+		TigerId:  tigerSightDetails.TigerId,
+		LastSeen: tigerSightDetails.LastSeen,
+		Lat:      tigerSightDetails.Lat,
+		Long:     tigerSightDetails.Long,
+	}
+	// todo: add a check for five 5km lat long
+	tigerSightResp, err := tigerRepository.CreateTigerDetail(db, tigerSight)
+	if err != nil {
+		return dtos.TigerSightResponse{}, nil
+	}
+	return tigerSerializer.TigerSightSerializer(tigerSightResp)
 }
 
 func CreateJwtToken(db *gorm.DB, userData models.User) dtos.AccessToken {
@@ -96,11 +113,21 @@ func CreateJwtToken(db *gorm.DB, userData models.User) dtos.AccessToken {
 	return accessTokenDtos
 }
 
-func TigerDetails() (map[string]interface{}, error) {
+func TigerDetails() ([]dtos.TigerWithSightDetailsResponse, error) {
 	db, _ := dbManager.GetDbInstance()
 	tigerRepository.GetTigerByLastSeen(db)
-	//if err != nil {
-	//	fmt.Println(err, tigerInfo)
-	//}
-	return map[string]interface{}{}, nil
+	tigerSightResp, err := tigerRepository.GetTigerByLastSeen(db)
+	if err != nil {
+		return []dtos.TigerWithSightDetailsResponse{}, err
+	}
+	return tigerSerializer.TigerWithSightDetailsSerializer(tigerSightResp)
+}
+
+func TigerSight() ([]dtos.TigerWithSightDetailsResponse, error) {
+	db, _ := dbManager.GetDbInstance()
+	tigerSightResp, err := tigerRepository.GetTigerSight(db)
+	if err != nil {
+		return []dtos.TigerWithSightDetailsResponse{}, err
+	}
+	return tigerSerializer.TigerWithSightDetailsSerializer(tigerSightResp)
 }

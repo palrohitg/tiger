@@ -26,3 +26,17 @@ func TigerSerializer(tiger models.Tiger) (dtos.TigerResponse, error) {
 	_ = json.Unmarshal(cardString, &tigerResponse)
 	return tigerResponse, nil
 }
+
+func TigerSightSerializer(tigerSight models.TigerSight) (dtos.TigerSightResponse, error) {
+	var tigerSightResponse dtos.TigerSightResponse
+	cardString, _ := json.Marshal(tigerSight)
+	_ = json.Unmarshal(cardString, &tigerSightResponse)
+	return tigerSightResponse, nil
+}
+
+func TigerWithSightDetailsSerializer(tigerWithSight []dtos.TigerWithSightDetails) ([]dtos.TigerWithSightDetailsResponse, error) {
+	var tigerWithSightResponse []dtos.TigerWithSightDetailsResponse
+	cardString, _ := json.Marshal(tigerWithSight)
+	_ = json.Unmarshal(cardString, &tigerWithSightResponse)
+	return tigerWithSightResponse, nil
+}

@@ -50,3 +50,31 @@ type TigerSightDetails struct {
 	Lat      string `json:"lat" binding:"required"`
 	Long     string `json:"long" binding:"required"`
 }
+
+type Tiger struct {
+	TigerId int `json:"tiger_id" binding:"required"`
+}
+
+type TigerWithSightDetails struct {
+	Id       int    `json:"id"`
+	Name     string `json:"name"`
+	DOB      string `json:"dob"`
+	LastSeen string `json:"last_seen"`
+	Lat      string `json:"lat"`
+	Long     string `json:"long"`
+}
+
+type TigerSightResponse struct {
+	Id       int    `json:"id"`
+	TigerId  int    `json:"tiger_id"`
+	LastSeen string `json:"last_seen"`
+}
+
+type TigerWithSightDetailsResponse struct {
+	Id       int    `json:"id"`
+	Name     string `json:"name"`
+	DOB      string `json:"dob"`
+	LastSeen string `json:"last_seen"`
+	Lat      string `json:"lat"`
+	Long     string `json:"long"`
+}
